@@ -43,6 +43,18 @@ public class Vector3 {
         this.z = z;
     }
 
+    public double getComponentByIndex(int index) {
+        if (index < 0 || index > 2)
+            throw new IndexOutOfBoundsException("Index must be between 0 and 2");
+
+        if (index == 0)
+            return x;
+        else if (index == 1)
+            return y;
+
+        return z;
+    }
+
     public double magnitude() {
         return Math.sqrt(Math.pow(getX(), 2) + Math.pow(getY(), 2) + Math.pow(getZ(), 2));
     }
@@ -84,6 +96,22 @@ public class Vector3 {
 
     public static double angleBetween(Vector3 v1, Vector3 v2) {
         return Math.acos(dot(v1, v2) / (v1.magnitude() * v2.magnitude()));
+    }
+
+    public static Vector3 componentWiseMin(Vector3 v1, Vector3 v2) {
+        double x = Math.min(v1.getX(), v2.getX());
+        double y = Math.min(v1.getY(), v2.getY());
+        double z = Math.min(v1.getZ(), v2.getZ());
+
+        return new Vector3(x, y, z);
+    }
+
+    public static Vector3 componentWiseMax(Vector3 v1, Vector3 v2) {
+        double x = Math.max(v1.getX(), v2.getX());
+        double y = Math.max(v1.getY(), v2.getY());
+        double z = Math.max(v1.getZ(), v2.getZ());
+
+        return new Vector3(x, y, z);
     }
 
     @Override

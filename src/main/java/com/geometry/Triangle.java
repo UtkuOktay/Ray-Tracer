@@ -58,6 +58,7 @@ public class Triangle implements Surface {
         return material;
     }
 
+    @Override
     public void setMaterial(Material material) {
         this.material = material;
     }
@@ -72,6 +73,7 @@ public class Triangle implements Surface {
         return normal;
     }
 
+    @Override
     public IntersectionInfo hit(Ray ray) {
         Vector3 n = getNormal();
         double denum = Vector3.dot(ray.getDirection(), n);
@@ -85,6 +87,21 @@ public class Triangle implements Surface {
             return null;
 
         return new IntersectionInfo(t, ray, hitPosition, n, getMaterial());
+    }
+
+    @Override
+    public Vector3 getCenter() {
+        return Vector3.divide(Vector3.add(getPointA(), Vector3.add(getPointB(), getPointC())), 3);
+    }
+
+    @Override
+    public Vector3 getMinPoint() {
+        return Vector3.componentWiseMin(getPointA(), Vector3.componentWiseMin(getPointB(), getPointC()));
+    }
+
+    @Override
+    public Vector3 getMaxPoint() {
+        return Vector3.componentWiseMax(getPointA(), Vector3.componentWiseMax(getPointB(), getPointC()));
     }
 
     private static double getAreaOfTriangle(Vector3 a, Vector3 b, Vector3 c) {

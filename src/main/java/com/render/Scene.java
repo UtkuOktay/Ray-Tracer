@@ -15,15 +15,13 @@ public class Scene {
     private Vector3 backgroundColor;
     private final List<PointLight> lights;
     private final List<Object3D> objects3D;
-    private final List<Surface> surfaces; // To accelerate the access when all surfaces are requested.
 
     public Scene(Camera camera, Vector3 ambientLight, Vector3 backgroundColor) {
         this.camera = camera;
         this.ambientLight = ambientLight;
         this.backgroundColor = backgroundColor;
-        lights = new ArrayList<PointLight>();
+        lights = new ArrayList<>();
         objects3D = new ArrayList<>();
-        surfaces = new ArrayList<>();
     }
 
     public Camera getCamera() {
@@ -59,7 +57,12 @@ public class Scene {
     }
 
     public List<Surface> getSurfaces() {
-        return Collections.unmodifiableList(surfaces);
+        List<Surface> surfaces = new ArrayList<>();
+
+        for (Object3D object : getObjects3D())
+            surfaces.addAll(object.getSurfaces());
+
+        return surfaces;
     }
 
     public void addLight(PointLight light) {
@@ -76,20 +79,13 @@ public class Scene {
 
     public void addObject3D(Object3D object3D) {
         objects3D.add(object3D);
-        for (Surface surface : object3D.getSurfaces()) {
-            surfaces.add(surface);
-        }
     }
 
     public void removeObject3D(Object3D object3D) {
         objects3D.remove(object3D);
-        for (Surface surface : object3D.getSurfaces()) {
-            surfaces.remove(surface);
-        }
     }
 
     public void clearObjects3D() {
         objects3D.clear();
-        surfaces.clear();
     }
 }

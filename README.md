@@ -26,20 +26,18 @@ This is a ray tracer written in Java. Ray tracing is a method that simulates how
 - Anti-aliasing
 - Multi-threading
 - OBJ File Parser (only vertices and faces are supported)
+- Bounding Volume Hierarchy
 
 ## Future Work
 - Loading Scenes from files
 - Object Transformations
 - Texture Mapping
 - Phong Shading (use of interpolated triangle normal vectors using vertex normals and barycentric coordinates)
-- Bounding Volume Hierarchy
 - Path Tracing/Monte Carlo Ray Tracing
 
 
 ## Notes
 - The ray tracer casts shadow rays to calculate shadows and only supports point lights. As a result, shadows are always hard.
-
-- Ray tracing is a computationally expensive algorithm. Furthermore, I did not focus on performance and it does not currently have acceleration techniques such as Bounding Volume Hierarchy. Hence, rendering scenes with a high number of shapes can take a very long time even though the rendering is multi-threaded.
 
 - It has a very simple OBJ file parser to import 3D models, but it will only read vertices and faces and ignore vertex normals etc. It doesn't support MTL files either.
 

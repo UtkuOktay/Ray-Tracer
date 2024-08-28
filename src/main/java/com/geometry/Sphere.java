@@ -70,6 +70,18 @@ public class Sphere implements Surface {
         return new IntersectionInfo(t, ray, hitPosition, normalVector, material);
     }
 
+    @Override
+    public Vector3 getMinPoint() {
+        double radius = getRadius();
+        return Vector3.subtract(getCenter(), new Vector3(radius, radius, radius));
+    }
+
+    @Override
+    public Vector3 getMaxPoint() {
+        double radius = getRadius();
+        return Vector3.add(getCenter(), new Vector3(radius, radius, radius));
+    }
+
     public Vector3 getNormal(Vector3 point) {
         return Vector3.subtract(point, getCenter()).normalized();
     }
