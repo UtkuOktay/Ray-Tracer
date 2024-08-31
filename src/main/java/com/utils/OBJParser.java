@@ -14,10 +14,10 @@ public class OBJParser {
         File file = new File(filePath);
 
         ArrayList<Vector3> vertices = new ArrayList<>();
+        ArrayList<Vector3> vertexNormals = new ArrayList<>();
         ArrayList<Surface> surfaces = new ArrayList<>();
 
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] elements = line.split(" ");
@@ -35,23 +35,51 @@ public class OBJParser {
                     vertices.add(new Vector3(x, y, z));
                 }
 
+                else if (elements[0].equals("vn")) {
+                    if (elements.length < 4)
+                        continue;
+
+                    double x = Double.parseDouble(elements[1]);
+                    double y = Double.parseDouble(elements[2]);
+                    double z = Double.parseDouble(elements[3]);
+
+                    vertexNormals.add(new Vector3(x, y, z));
+                }
+
                 else if (elements[0].equals("f")) {
                     if (elements.length < 4)
                         continue;
 
-                    int indexA = Integer.parseInt(elements[1].split("/")[0].split("//")[0]);
-                    int indexB = Integer.parseInt(elements[2].split("/")[0].split("//")[0]);
-                    int indexC = Integer.parseInt(elements[3].split("/")[0].split("//")[0]);
+                    String[] v1 = elements[1].split("/");
+                    String[] v2 = elements[2].split("/");
+                    String[] v3 = elements[3].split("/");
+
+                    int indexA = Integer.parseInt(v1[0]);
+                    int indexB = Integer.parseInt(v2[0]);
+                    int indexC = Integer.parseInt(v3[0]);
 
                     int numberOfVertices = vertices.size();
                     if (indexA < 1 || indexB < 1 || indexC < 1 || indexA > numberOfVertices || indexB > numberOfVertices || indexC > numberOfVertices)
                         continue;
 
-                    Vector3 a = vertices.get(indexA - 1);
-                    Vector3 b = vertices.get(indexB - 1);
-                    Vector3 c = vertices.get(indexC - 1);
+                    Vector3 vA = vertices.get(indexA - 1);
+                    Vector3 vB = vertices.get(indexB - 1);
+                    Vector3 vC = vertices.get(indexC - 1);
 
-                    surfaces.add(new Triangle(a, b, c, material));
+                    if (v1.length < 2 || v2.length < 2 || v3.length < 2) {
+                        surfaces.add(new Triangle(vA, vB, vC, material));
+                        continue;
+                    }
+
+                    int indexVnA = Integer.parseInt(v1[2]);
+                    int indexVnB = Integer.parseInt(v2[2]);
+                    int indexVnC = Integer.parseInt(v3[2]);
+
+                    Vector3 vnA = vertexNormals.get(indexVnA - 1);
+                    Vector3 vnB = vertexNormals.get(indexVnB - 1);
+                    Vector3 vnC = vertexNormals.get(indexVnC - 1);
+
+                    surfaces.add(new Triangle(vA, vB, vC, vnA, vnB, vnC, material));
                 }
             }
         }
