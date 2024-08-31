@@ -9,7 +9,7 @@ import main.java.com.utils.PostProcessing;
 
 
 public class Main {
-    private static final int pixelSamples = 10;
+    private static final int pixelSamples = 20;
 
     public static void main(String[] args) {
         Renderer renderer = new Renderer();

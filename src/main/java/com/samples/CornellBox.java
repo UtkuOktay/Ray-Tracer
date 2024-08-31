@@ -10,8 +10,8 @@ import main.java.com.render.Scene;
 import main.java.com.shading.Material;
 
 public class CornellBox {
-    private static final int imageWidth = 1280;
-    private static final int imageHeight = 1280;
+    private static final int imageWidth = 1920;
+    private static final int imageHeight = 1920;
 
     public static Scene getScene() {
         Camera camera = new Camera(new Vector3(0, 0, 2.5), new Vector3(0, 0, -1), new Vector3(0, 1, 0), imageWidth, imageHeight, 2, 4);

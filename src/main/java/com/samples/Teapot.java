@@ -10,8 +10,8 @@ import main.java.com.shading.Material;
 import main.java.com.utils.OBJParser;
 
 public class Teapot {
-    private static final int imageWidth = 1280;
-    private static final int imageHeight = 720;
+    private static final int imageWidth = 1920;
+    private static final int imageHeight = 1080;
 
     public static Scene getScene() {
         Camera camera = new Camera(new Vector3(0, 4, 5), new Vector3(0, -0.5, -1), new Vector3(0, 1, 0), imageWidth, imageHeight, 2, 4);
