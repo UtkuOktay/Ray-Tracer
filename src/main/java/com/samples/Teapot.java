@@ -6,6 +6,7 @@ import main.java.com.math.Vector3;
 import main.java.com.render.Camera;
 import main.java.com.render.PointLight;
 import main.java.com.render.Scene;
+import main.java.com.shading.DielectricMaterial;
 import main.java.com.shading.Material;
 import main.java.com.utils.OBJParser;
 
@@ -17,7 +18,7 @@ public class Teapot {
         Camera camera = new Camera(new Vector3(0, 4, 5), new Vector3(0, -0.5, -1), new Vector3(0, 1, 0), imageWidth, imageHeight, 2, 4);
         PointLight light = new PointLight(new Vector3(0, 5, 5), new Vector3(1, 1, 1), 10);
 
-        Material teapotMaterial = new Material(new Vector3(0.9, 0.05, 0.05), new Vector3(0.8, 0.8, 0.8), 100, 1.5, 0);
+        Material teapotMaterial = new DielectricMaterial(new Vector3(0.9, 0.05, 0.05), new Vector3(0.8, 0.8, 0.8), 100, 1.5, 0);
 
         Object3D teapotObject = OBJParser.parseOBJFile("res\\models\\teapot.obj", teapotMaterial);
 
@@ -26,7 +27,7 @@ public class Teapot {
         Vector3 pointC = new Vector3(5, 0, 5);
         Vector3 pointD = new Vector3(5, 0, -5);
 
-        Material floorMaterial = new Material(new Vector3(0.2, 0.2, 0.25), new Vector3(0.2, 0.2, 0.2), 10, 2, 0);
+        Material floorMaterial = new DielectricMaterial(new Vector3(0.2, 0.2, 0.25), new Vector3(0.2, 0.2, 0.2), 10, 2, 0);
 
         Triangle triangle1 = new Triangle(pointA, pointB, pointC, floorMaterial);
         Triangle triangle2 = new Triangle(pointC, pointD, pointA, floorMaterial);

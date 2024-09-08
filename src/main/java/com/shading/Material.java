@@ -1,20 +1,17 @@
 package main.java.com.shading;
 
 import main.java.com.math.Vector3;
+import main.java.com.render.Ray;
 
-public class Material {
+public abstract class Material {
     private Vector3 diffuseColor;
     private Vector3 specularColor;
     private double specularHardness;
-    private double ior;
-    private double transmission;
 
-    public Material(Vector3 diffuseColor, Vector3 specularColor, double specularHardness, double ior, double transmission) {
+    public Material(Vector3 diffuseColor, Vector3 specularColor, double specularHardness) {
         this.diffuseColor = diffuseColor;
         this.specularColor = specularColor;
         this.specularHardness = specularHardness;
-        this.ior = ior;
-        this.transmission = Math.max(Math.min(transmission, 1), 0);
     }
 
     public Vector3 getDiffuseColor() {
@@ -41,19 +38,7 @@ public class Material {
         this.specularHardness = specularHardness;
     }
 
-    public double getIor() {
-        return ior;
-    }
-
-    public void setIor(double ior) {
-        this.ior = ior;
-    }
-
-    public double getTransmission() {
-        return transmission;
-    }
-
-    public void setTransmission(double transmission) {
-        this.transmission = Math.max(Math.min(transmission, 1), 0);
-    }
+    public abstract double getReflectivity(double airIor, Ray ray, Vector3 surfaceNormal);
+    public abstract double getTransmission();
+    public abstract double getIor();
 }
