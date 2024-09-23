@@ -12,6 +12,9 @@ public class Triangle implements Surface {
     private Vector3 vertexNormalA, vertexNormalB, vertexNormalC;
     private Vector3 standardNormal;
     private Material material;
+    private double[] uvA = new double[2];
+    private double[] uvB = new double[2];
+    private double[] uvC = new double[2];
 
     public Triangle(Vector3 pointA, Vector3 pointB, Vector3 pointC, Material material) {
         this.pointA = pointA;
@@ -33,6 +36,19 @@ public class Triangle implements Surface {
         this.vertexNormalC = vertexNormalC;
         this.material = material;
         updateNormalVector();
+    }
+
+    public Triangle(Vector3 pointA, Vector3 pointB, Vector3 pointC, Vector3 vertexNormalA, Vector3 vertexNormalB, Vector3 vertexNormalC,
+                    Material material, double[] uvA, double[] uvB, double[] uvC) {
+
+        this(pointA, pointB, pointC, vertexNormalA, vertexNormalB, vertexNormalC, material);
+
+        if (uvA.length != 2 || uvB.length != 2 || uvC.length != 2)
+            throw new IllegalArgumentException("UV coordinates must have 2 values.");
+
+        this.uvA = uvA;
+        this.uvB = uvB;
+        this.uvC = uvC;
     }
 
     private void updateNormalVector() {
@@ -102,6 +118,39 @@ public class Triangle implements Surface {
         this.material = material;
     }
 
+    public double[] getUvA() {
+        return uvA;
+    }
+
+    public void setUvA(double[] uvA) {
+        if (uvA.length != 2)
+            throw new IllegalArgumentException("UV coordinates must have 2 values.");
+
+        this.uvA = uvA;
+    }
+
+    public double[] getUvB() {
+        return uvB;
+    }
+
+    public void setUvB(double[] uvB) {
+        if (uvB.length != 2)
+            throw new IllegalArgumentException("UV coordinates must have 2 values.");
+
+        this.uvB = uvB;
+    }
+
+    public double[] getUvC() {
+        return uvC;
+    }
+
+    public void setUvC(double[] uvC) {
+        if (uvB.length != 2)
+            throw new IllegalArgumentException("UV coordinates must have 2 values.");
+
+        this.uvC = uvC;
+    }
+
     public double getArea() {
         Vector3 ab = Vector3.subtract(getPointB(), getPointA());
         Vector3 ac = Vector3.subtract(getPointC(), getPointA());
@@ -135,10 +184,19 @@ public class Triangle implements Surface {
         double num = Vector3.dot(Vector3.subtract(getPointA(), ray.getOrigin()), n);
         double t = num / denum;
         Vector3 hitPosition = ray.pointAt(t);
-        if (!isInside(hitPosition))
+
+        double[] barycentricCoordinates = getBarycentricCoordinates(hitPosition);
+        double alpha = barycentricCoordinates[0];
+        double beta = barycentricCoordinates[1];
+        double gamma = barycentricCoordinates[2];
+
+        if (!isInside(alpha, beta, gamma))
             return null;
 
-        return new IntersectionInfo(t, ray, hitPosition, getNormal(hitPosition), getMaterial());
+        double u = getUvA()[0] * alpha + getUvB()[0] * beta + getUvC()[0] * gamma;
+        double v = getUvA()[1] * alpha + getUvB()[1] * beta + getUvC()[1] * gamma;
+
+        return new IntersectionInfo(t, ray, hitPosition, getNormal(hitPosition), getMaterial(), u, v);
     }
 
     @Override
@@ -172,12 +230,7 @@ public class Triangle implements Surface {
         return new double[] {alpha, beta, gamma};
     }
 
-    private boolean isInside(Vector3 point) {
-        double[] barycentricCoordinates = getBarycentricCoordinates(point);
-        double alpha = barycentricCoordinates[0];
-        double beta = barycentricCoordinates[1];
-        double gamma = barycentricCoordinates[2];
-
+    private boolean isInside(double alpha, double beta, double gamma) {
         return alpha > 0 && beta > 0 && gamma > 0 && alpha + beta + gamma < 1 + eps;
     }
 }

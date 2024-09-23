@@ -83,10 +83,12 @@ public class Renderer {
 
             double reflectivity = material.getReflectivity(airIor, ray, intersectionInfo.getNormal());
 
-            Ray reflectionRay = getReflectionRay(ray, surfaceNormal, intersectionInfo);
+            if (reflectivity > 0) {
+                Ray reflectionRay = getReflectionRay(ray, surfaceNormal, intersectionInfo);
 
-            Vector3 reflectionColor = traceRay(reflectionRay, scene, bvh, depth - 1);
-            color = Vector3.add(color, Vector3.multiply(reflectionColor, reflectivity));
+                Vector3 reflectionColor = traceRay(reflectionRay, scene, bvh, depth - 1);
+                color = Vector3.add(color, Vector3.multiply(reflectionColor, reflectivity));
+            }
 
             // Transmission Ray
             if (material.getTransmission() > 0) {

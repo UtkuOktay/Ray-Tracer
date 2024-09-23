@@ -8,6 +8,7 @@ import main.java.com.render.PointLight;
 import main.java.com.render.Scene;
 import main.java.com.shading.DielectricMaterial;
 import main.java.com.shading.Material;
+import main.java.com.texture.SolidColorTexture;
 import main.java.com.utils.OBJParser;
 
 public class Dragon {
@@ -18,7 +19,7 @@ public class Dragon {
         Camera camera = new Camera(new Vector3(-1.75, 1.5, 3.5), new Vector3(0.25, 0, -1), new Vector3(0, 1, 0), imageWidth, imageHeight, 2, 4);
         PointLight light = new PointLight(new Vector3(0, 5, 5), new Vector3(1, 1, 1), 30);
 
-        Material dragonMaterial = new DielectricMaterial(new Vector3(0.1, 0.35, 0.8), new Vector3(0.8, 0.8, 0.8), 100, 1.5, 0);
+        Material dragonMaterial = new DielectricMaterial(new SolidColorTexture(new Vector3(0.1, 0.35, 0.8)), new Vector3(0.8, 0.8, 0.8), 100, 1.5, 0);
 
         Object3D dragonObject = OBJParser.parseOBJFile("res\\models\\dragon.obj", dragonMaterial);
 
@@ -31,8 +32,8 @@ public class Dragon {
         Vector3 pointG = new Vector3(10, 0, 10);
         Vector3 pointH = new Vector3(10, 10, 10);
 
-        Material floorMaterial = new DielectricMaterial(new Vector3(0.9, 0.85, 0.75), new Vector3(0.1, 0.1, 0.1), 1, 1, 0);
-        Material wallMaterial = new DielectricMaterial(new Vector3(0.95, 0.8, 0.5), new Vector3(0.1, 0.1, 0.1), 1, 1, 0);
+        Material floorMaterial = new DielectricMaterial(new SolidColorTexture(new Vector3(0.9, 0.85, 0.75)), new Vector3(0.1, 0.1, 0.1), 1, 1, 0);
+        Material wallMaterial = new DielectricMaterial(new SolidColorTexture(new Vector3(0.95, 0.8, 0.5)), new Vector3(0.1, 0.1, 0.1), 1, 1, 0);
 
         Triangle triangle1 = new Triangle(pointA, pointB, pointC, floorMaterial);
         Triangle triangle2 = new Triangle(pointC, pointD, pointA, floorMaterial);

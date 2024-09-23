@@ -7,8 +7,10 @@ import main.java.com.math.Vector3;
 import main.java.com.render.Camera;
 import main.java.com.render.PointLight;
 import main.java.com.render.Scene;
+import main.java.com.shading.ConductorMaterial;
 import main.java.com.shading.DielectricMaterial;
 import main.java.com.shading.Material;
+import main.java.com.texture.SolidColorTexture;
 
 public class CornellBox {
     private static final int imageWidth = 1920;
@@ -19,9 +21,9 @@ public class CornellBox {
         PointLight light = new PointLight(new Vector3(0, 2.95, 0), new Vector3(1, 1, 1), 10);
 
         //Cornell Box
-        Material floorMaterial = new DielectricMaterial(new Vector3(0.8, 0.8, 0.8), new Vector3(0.1, 0.1, 0.1), 10, 1, 0);
-        Material leftWallMaterial = new DielectricMaterial(new Vector3(0.9, 0.1, 0.1), new Vector3(0.1, 0.1, 0.1), 10, 1, 0);
-        Material rightWallMaterial = new DielectricMaterial(new Vector3(0.1, 0.9, 0.1), new Vector3(0.1, 0.1, 0.1), 10, 1, 0);
+        Material floorMaterial = new DielectricMaterial(new SolidColorTexture(new Vector3(0.8, 0.8, 0.8)), new Vector3(0.1, 0.1, 0.1), 10, 1, 0);
+        Material leftWallMaterial = new DielectricMaterial(new SolidColorTexture(new Vector3(0.9, 0.1, 0.1)), new Vector3(0.1, 0.1, 0.1), 10, 1, 0);
+        Material rightWallMaterial = new DielectricMaterial(new SolidColorTexture(new Vector3(0.1, 0.9, 0.1)), new Vector3(0.1, 0.1, 0.1), 10, 1, 0);
 
         Vector3 pointA = new Vector3(-3, -3, 0);
         Vector3 pointB = new Vector3(3, -3, 0);
@@ -67,8 +69,8 @@ public class CornellBox {
 
 
         //Spheres
-        Material sphereMaterial1 = new DielectricMaterial(new Vector3(1, 0, 0), new Vector3(0.2, 0.2, 0.2), 100, 1, 0);
-        Material sphereMaterial2 = new DielectricMaterial(new Vector3(0, 0.8, 0.8), new Vector3(0.2, 0.2, 0.2), 100, 5, 0);
+        Material sphereMaterial1 = new DielectricMaterial(new SolidColorTexture(new Vector3(1, 0, 0)), new Vector3(0.2, 0.2, 0.2), 100, 1, 0);
+        Material sphereMaterial2 = new ConductorMaterial(new SolidColorTexture(new Vector3(0, 0.8, 0.8)), new Vector3(0.2, 0.2, 0.2), 100, 0.5);
 
         Sphere sphere1 = new Sphere(new Vector3(-1.5, -2, -2), 1, sphereMaterial1);
         Sphere sphere2 = new Sphere(new Vector3(1.5, -2, -2), 1, sphereMaterial2);

@@ -12,8 +12,11 @@ public class BlinnPhongShading {
         Material material = intersectionInfo.getMaterial();
         Ray ray = intersectionInfo.getRay();
 
+        double u = intersectionInfo.getU();
+        double v = intersectionInfo.getV();
+
         // Ambient Lighting
-        Vector3 color = Vector3.componentWiseMultiply(material.getDiffuseColor(), ambientLight);
+        Vector3 color = Vector3.componentWiseMultiply(material.getDiffuseTexture().getColor(u, v), ambientLight);
 
         for (PointLight light : lights) {
             Vector3 lightVector = Vector3.subtract(light.getPosition(), intersectionInfo.getPosition());
@@ -21,7 +24,7 @@ public class BlinnPhongShading {
 
             // Diffuse Component
             double diffuseDotProduct = Math.max(0, Vector3.dot(intersectionInfo.getNormal(), lightVector.normalized()));
-            Vector3 kd = material.getDiffuseColor();
+            Vector3 kd = material.getDiffuseTexture().getColor(u, v);
             color = Vector3.add(color, Vector3.multiply(Vector3.componentWiseMultiply(kd, lightColor), diffuseDotProduct));
 
             // Specular Component

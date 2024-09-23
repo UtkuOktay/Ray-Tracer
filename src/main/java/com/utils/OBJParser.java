@@ -8,14 +8,20 @@ import main.java.com.shading.Material;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OBJParser {
-    public static Object3D parseOBJFile(String filePath, Material material) {
+    public static Object3D parseOBJFile(String filePath, Material defaultMaterial) {
         File file = new File(filePath);
 
         ArrayList<Vector3> vertices = new ArrayList<>();
         ArrayList<Vector3> vertexNormals = new ArrayList<>();
+        ArrayList<double[]> textureCoordinates = new ArrayList<>();
         ArrayList<Surface> surfaces = new ArrayList<>();
+
+        Material currentMaterial = defaultMaterial;
+        Map<String, Material> materials = new HashMap<>();
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
@@ -46,6 +52,16 @@ public class OBJParser {
                     vertexNormals.add(new Vector3(x, y, z));
                 }
 
+                else if (elements[0].equals("vt")) {
+                    if (elements.length < 3)
+                        continue;
+
+                    double u = Double.parseDouble(elements[1]);
+                    double v = Double.parseDouble(elements[2]);
+
+                    textureCoordinates.add(new double[] {u, v});
+                }
+
                 else if (elements[0].equals("f")) {
                     if (elements.length < 4)
                         continue;
@@ -66,20 +82,31 @@ public class OBJParser {
                     Vector3 vB = vertices.get(indexB - 1);
                     Vector3 vC = vertices.get(indexC - 1);
 
-                    if (v1.length < 2 || v2.length < 2 || v3.length < 2) {
-                        surfaces.add(new Triangle(vA, vB, vC, material));
-                        continue;
+                    double[] uvA = new double[2], uvB = new double[2], uvC = new double[2];
+                    if (!v1[1].isEmpty() && !v2[1].isEmpty() && !v3[1].isEmpty()) {
+                        uvA = textureCoordinates.get(Integer.parseInt(v1[1]) - 1);
+                        uvB = textureCoordinates.get(Integer.parseInt(v2[1]) - 1);
+                        uvC = textureCoordinates.get(Integer.parseInt(v3[1]) - 1);
                     }
 
-                    int indexVnA = Integer.parseInt(v1[2]);
-                    int indexVnB = Integer.parseInt(v2[2]);
-                    int indexVnC = Integer.parseInt(v3[2]);
+                    Vector3 vnA = null, vnB = null, vnC = null;
+                    if (!v1[2].isEmpty() && !v2[2].isEmpty() && !v3[2].isEmpty()) {
+                        vnA = vertexNormals.get(Integer.parseInt(v1[2]) - 1);
+                        vnB = vertexNormals.get(Integer.parseInt(v2[2]) - 1);
+                        vnC = vertexNormals.get(Integer.parseInt(v3[2]) - 1);
+                    }
 
-                    Vector3 vnA = vertexNormals.get(indexVnA - 1);
-                    Vector3 vnB = vertexNormals.get(indexVnB - 1);
-                    Vector3 vnC = vertexNormals.get(indexVnC - 1);
+                    surfaces.add(new Triangle(vA, vB, vC, vnA, vnB, vnC, currentMaterial, uvA, uvB, uvC));
+                }
 
-                    surfaces.add(new Triangle(vA, vB, vC, vnA, vnB, vnC, material));
+                else if (elements[0].equals("mtllib")) {
+                    String mtlFilePath = filePath.substring(0, filePath.lastIndexOf(File.separator) + 1) + elements[1];
+                    Map<String, Material> newMaterials = MTLParser.parseMTLFile(mtlFilePath);
+                    if (newMaterials != null)
+                        materials.putAll(newMaterials);
+                }
+                else if (elements[0].equals("usemtl")) {
+                    currentMaterial = materials.getOrDefault(elements[1], defaultMaterial);
                 }
             }
         }
@@ -93,7 +120,6 @@ public class OBJParser {
         }
 
         Object3D object3D = new Object3D();
-        object3D.setMaterial(material);
         for (Surface surface : surfaces) {
             object3D.addSurface(surface);
         }

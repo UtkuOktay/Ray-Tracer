@@ -2,24 +2,29 @@ package main.java.com.shading;
 
 import main.java.com.math.Vector3;
 import main.java.com.render.Ray;
+import main.java.com.texture.Texture;
 
 public abstract class Material {
-    private Vector3 diffuseColor;
+    private Texture diffuseTexture;
     private Vector3 specularColor;
     private double specularHardness;
 
-    public Material(Vector3 diffuseColor, Vector3 specularColor, double specularHardness) {
-        this.diffuseColor = diffuseColor;
+    public Material() {
+
+    }
+
+    public Material(Texture diffuseTexture, Vector3 specularColor, double specularHardness) {
+        this.diffuseTexture = diffuseTexture;
         this.specularColor = specularColor;
         this.specularHardness = specularHardness;
     }
 
-    public Vector3 getDiffuseColor() {
-        return diffuseColor;
+    public Texture getDiffuseTexture() {
+        return diffuseTexture;
     }
 
-    public void setDiffuseColor(Vector3 diffuseColor) {
-        this.diffuseColor = diffuseColor;
+    public void setDiffuseTexture(Texture diffuseTexture) {
+        this.diffuseTexture = diffuseTexture;
     }
 
     public Vector3 getSpecularColor() {

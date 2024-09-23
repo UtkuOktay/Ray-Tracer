@@ -9,14 +9,17 @@ public class IntersectionInfo {
     private Vector3 position;
     private Vector3 normal;
     private Material material;
+    private double u, v;
     private boolean isInsideObject = false;
 
-    public IntersectionInfo(double t, Ray ray, Vector3 position, Vector3 normal, Material material) {
+    public IntersectionInfo(double t, Ray ray, Vector3 position, Vector3 normal, Material material, double u, double v) {
         this.t = t;
         this.ray = ray;
         this.position = position;
         this.normal = normal;
         this.material = material;
+        this.u = u;
+        this.v = v;
         updateIfInsideObject();
     }
 
@@ -38,6 +41,22 @@ public class IntersectionInfo {
 
     public Material getMaterial() {
         return material;
+    }
+
+    public double getU() {
+        return u;
+    }
+
+    public void setU(double u) {
+        this.u = u;
+    }
+
+    public double getV() {
+        return v;
+    }
+
+    public void setV(double v) {
+        this.v = v;
     }
 
     public boolean isInsideObject() {

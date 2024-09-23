@@ -2,13 +2,18 @@ package main.java.com.shading;
 
 import main.java.com.math.Vector3;
 import main.java.com.render.Ray;
+import main.java.com.texture.Texture;
 
 public class DielectricMaterial extends Material{
     private double ior;
     private double transmission;
 
-    public DielectricMaterial(Vector3 diffuseColor, Vector3 specularColor, double specularHardness, double ior, double transmission) {
-        super(diffuseColor, specularColor, specularHardness);
+    public DielectricMaterial() {
+        super();
+    }
+
+    public DielectricMaterial(Texture diffuseTexture, Vector3 specularColor, double specularHardness, double ior, double transmission) {
+        super(diffuseTexture, specularColor, specularHardness);
         this.ior = ior;
         this.transmission = Math.max(Math.min(transmission, 1), 0);
     }

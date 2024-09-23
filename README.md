@@ -15,7 +15,10 @@ This is a ray tracer written in Java. Ray tracing is a method that simulates how
 ### Stanford Dragon
 <img src="./renders/dragon_render.png" width="500">
 
-<sub>*I did not upload the model file of the Stanford Dragon as it is large, but the model can be found in the Stanford 3D Scanning Repository.*</sub>
+### Sponza Atrium
+<img src="./renders/sponza_render.png" width="500">
+
+<sub>*I did not upload the model files of the Stanford Dragon and Sponza Atrium as they are large, but they can be found through the links provided in the Resources section. Note that the original models come in various sizes and I resized them, hence, using the original models may result in different outputs.*</sub>
 
 ## Features
 - Spheres and Triangles
@@ -25,24 +28,25 @@ This is a ray tracer written in Java. Ray tracing is a method that simulates how
 - Phong Shading (Surface Normal Interpolation)
 - Reflection (Fresnel Effect using Schlick's Approximation)
 - Transmission/Refraction (Snell's Law)
+- Texture Mapping (Bilinear Filtering)
 - Gamma Correction
 - Anti-aliasing
 - Multi-threaded Rendering
-- OBJ File Parser (only vertices and faces are supported)
+- OBJ & MTL File Parser
 - Bounding Volume Hierarchy
 
 ## Future Work
 - Loading Scenes from files
 - Object Transformations
-- Texture Mapping
-- Physically Based Rendering (BRDF)
+- GUI
+- Physically Based Rendering
 - Path Tracing/Monte Carlo Ray Tracing
 
 
 ## Notes
-- The ray tracer casts shadow rays to calculate shadows and only supports point lights. As a result, shadows are always hard.
+- The ray tracer casts shadow rays to calculate shadows and only supports point lights. As a result, shadows are always hard and indirect illumination is not calculated. Currently, a constant ambient light is assumed for global illumination.
 
-- It has a simple OBJ file parser to import 3D models, but it lacks some features such as reading texture coordinates. It doesn't support MTL files either.
+- Image texture can only be used for diffuse component. Specular, bump mapping etc. are currently not supported.
 
 - The project has not been comprehensively tested and may contain some bugs.
 
@@ -52,3 +56,5 @@ This is a ray tracer written in Java. Ray tracing is a method that simulates how
 - [_The Stanford 3D Scanning Repository_](https://graphics.stanford.edu/data/3Dscanrep/): A repository containing various 3D objects. Stanford Dragon can be found in this repository.
 
 - [_Utah Model Repository_](https://users.cs.utah.edu/~dejohnso/models/teapot.html): Utah Teapot can be found in this repository.
+
+- [_McGuire Computer Graphics Archive_](https://casual-effects.com/data/): Crytek Sponza Atrium can be found in this archive.

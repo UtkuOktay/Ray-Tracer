@@ -94,7 +94,7 @@ public class BVH {
     }
 
     public IntersectionInfo hit(Ray ray) {
-        IntersectionInfo dummyIntersectionInfo = new IntersectionInfo(Double.MAX_VALUE, ray, new Vector3(), new Vector3(), null);
+        IntersectionInfo dummyIntersectionInfo = new IntersectionInfo(Double.MAX_VALUE, ray, new Vector3(), new Vector3(), null, 0, 0);
         IntersectionInfo closestIntersection = hitRec(ray, getRoot(), dummyIntersectionInfo);
 
         if (closestIntersection == dummyIntersectionInfo)

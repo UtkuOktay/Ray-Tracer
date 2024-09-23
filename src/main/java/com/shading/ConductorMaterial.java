@@ -2,12 +2,17 @@ package main.java.com.shading;
 
 import main.java.com.math.Vector3;
 import main.java.com.render.Ray;
+import main.java.com.texture.Texture;
 
 public class ConductorMaterial extends Material{
     private double reflectivity;
 
-    public ConductorMaterial(Vector3 diffuseColor, Vector3 specularColor, double specularHardness, double reflectivity) {
-        super(diffuseColor, specularColor, specularHardness);
+    public ConductorMaterial() {
+        super();
+    }
+
+    public ConductorMaterial(Texture diffuseTexture, Vector3 specularColor, double specularHardness, double reflectivity) {
+        super(diffuseTexture, specularColor, specularHardness);
         this.reflectivity = Math.min(Math.max(reflectivity, 0), 1);
     }
 

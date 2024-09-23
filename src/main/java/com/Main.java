@@ -4,7 +4,7 @@ import main.java.com.math.Vector3;
 import main.java.com.render.Renderer;
 import main.java.com.render.Scene;
 import main.java.com.samples.CornellBox;
-import main.java.com.utils.ImageSaver;
+import main.java.com.utils.ImageFileIO;
 import main.java.com.utils.PostProcessing;
 
 
@@ -16,7 +16,7 @@ public class Main {
         Scene scene = CornellBox.getScene();
         Vector3[][] image = renderer.render(scene, pixelSamples);
         image = PostProcessing.gammaCorrection(image);
-        image = ImageSaver.clampPixelValues(image, 1);
-        ImageSaver.saveImage(image, "renders\\cornell-box_render.png");
+        image = ImageFileIO.clampPixelValues(image, 1);
+        ImageFileIO.saveImage(image, "renders\\cornell-box_render.png");
     }
 }

@@ -67,7 +67,10 @@ public class Sphere implements Surface {
 
         Vector3 normalVector = getNormal(hitPosition);
 
-        return new IntersectionInfo(t, ray, hitPosition, normalVector, material);
+        double u = (Math.atan2(-normalVector.getZ(), normalVector.getX()) + Math.PI) / (2 * Math.PI);
+        double v = Math.acos(-normalVector.getY()) / Math.PI;
+
+        return new IntersectionInfo(t, ray, hitPosition, normalVector, material, u, v);
     }
 
     @Override
